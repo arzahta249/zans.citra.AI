@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+// prisma/schema.prisma
+
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // Baris url dan directUrl sudah dihapus dari sini
+}
+
+// Tabel Pengguna
+model User {
+  id        String      @id @default(uuid())
+  email     String      @unique
+  name      String?
+  scans     PlantScan[] 
+  createdAt DateTime    @default(now())
+}
+
+// Tabel Riwayat Analisis Tanaman
+model PlantScan {
+  id               String   @id @default(uuid())
+  imageUrl         String   
+  plantName        String   
+  careInstructions String   
+  pest             String?  
+  solution         String?  
+  userId           String   
+  user             User     @relation(fields: [userId], references: [id])
+  createdAt        DateTime @default(now())
+}
